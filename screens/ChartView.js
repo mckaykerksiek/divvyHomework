@@ -9,9 +9,11 @@ class ChartView extends React.Component {
 }
 
 ChartView.propTypes = {
-    yValues: PropTypes.array,
-    xValues: PropTypes.array
-}
+    values: PropTypes.arrayOf(PropTypes.shape ({
+        x: PropTypes.number.isRequired,
+        y: PropTypes.number.isRequired
+    }))
+};
 
 // requireNativeComponent automatically resolves 'RNTChart' to 'RNTChartManager'
 var RNTChart = requireNativeComponent('RNTChart');

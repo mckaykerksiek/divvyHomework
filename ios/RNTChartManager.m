@@ -6,29 +6,46 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RNTChartManager.h"
 
-#import <MapKit/MapKit.h>
-
-#import <React/RCTViewManager.h>
 @import Charts;
 
+@interface RNTChartManager () < IChartAxisValueFormatter>
 
+@end
 
-@interface RNTChartManager : RCTViewManager
+typedef struct {
+    NSNumber* x;
+    NSNumber* y;
+} XYValues;
+
+XYValues createXYValues(NSNumber* x, NSNumber* y) {
+    XYValues vals;
+    vals.x = x;
+    vals.y = y;
+    return vals;
+};
+
+@implementation RCTConvert (XYValues)
+
+RCT_CUSTOM_CONVERTER(XYValues, XYValues, createXYValues(json[@"x"], json[@"y"]) )
+
 @end
 
 @implementation RNTChartManager
 
+
 RCT_EXPORT_MODULE(RNTChart)
 
-RCT_CUSTOM_VIEW_PROPERTY(yValues, [double], LineChartView) {
+RCT_CUSTOM_VIEW_PROPERTY(values, [XYValues], LineChartView) {
   
+ 
   NSMutableArray *values = [[NSMutableArray alloc] init];
    
    for (int i = 0; i < [json count]; i++)
    {
-     double val = [RCTConvert CGFloat:json[i]];
-      [values addObject:[[ChartDataEntry alloc] initWithX:i y:val icon: [UIImage imageNamed:@"icon"]]];
+     XYValues val = [RCTConvert XYValues:json[i]];
+      [values addObject:[[ChartDataEntry alloc] initWithX:[val.x doubleValue] y:[val.y doubleValue] icon: [UIImage imageNamed:@"icon"]]];
    }
   LineChartDataSet *set1 = nil;
   set1 = [[LineChartDataSet alloc] initWithEntries:values label:@"Monthly Revenue"];
@@ -43,7 +60,6 @@ RCT_CUSTOM_VIEW_PROPERTY(yValues, [double], LineChartView) {
   set1.circleRadius = 3.0;
   set1.drawCircleHoleEnabled = NO;
   set1.valueFont = [UIFont systemFontOfSize:9.f];
-//         set1.formLineDashLengths = @[@5.f, @2.5f];
   set1.formLineWidth = 1.0;
   set1.formSize = 15.0;
   
@@ -63,34 +79,33 @@ RCT_CUSTOM_VIEW_PROPERTY(xValues, [String], LineChartView) {
 
 - (UIView *)view
 {
-//  RNTMapView *map = [RNTMapView new];
-//    map.delegate = self;
-//    return map;
   LineChartView *chart = [LineChartView new];
+  [self setUpChart:chart];
   return chart; //[self setDataCount:6 range:20];
 }
 
-- (LineChartData *)dataWithCount:(int)count range:(double)range
+- (void)setUpChart:(LineChartView*)view
 {
-    NSMutableArray *yVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        double val = (double) (arc4random_uniform(range)) + 3;
-        [yVals addObject:[[ChartDataEntry alloc] initWithX:i y:val]];
-    }
-    
-    LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithEntries:yVals label:@"DataSet 1"];
-    
-    set1.lineWidth = 1.75;
-    set1.circleRadius = 5.0;
-    set1.circleHoleRadius = 2.5f;
-    [set1 setColor:UIColor.whiteColor];
-    [set1 setCircleColor:UIColor.whiteColor];
-    set1.highlightColor = UIColor.whiteColor;
-    set1.drawValuesEnabled = NO;
-    
-    return [[LineChartData alloc] initWithDataSet:set1];
+  view.dragEnabled = YES;
+  [view setScaleEnabled:YES];
+  view.pinchZoomEnabled = YES;
+  view.drawGridBackgroundEnabled = NO;
+  
+  ChartXAxis *xAxis = view.xAxis;
+  xAxis.labelFont = [UIFont systemFontOfSize:11.f];
+  xAxis.labelTextColor = UIColor.blueColor;
+  xAxis.axisMinimum = 1.0;
+  xAxis.granularity = 1.0;
+  xAxis.valueFormatter = self;
+  
+  //xAxis.label
+  ChartYAxis *leftAxis = view.leftAxis;
+  leftAxis.enabled = NO;
+  
+  view.rightAxis.enabled = NO;
+  
+  view.legend.form = ChartLegendFormLine;
+   
 }
 
 - (LineChartView *)setDataCount:(int)count range:(double)range
@@ -111,27 +126,14 @@ RCT_CUSTOM_VIEW_PROPERTY(xValues, [String], LineChartView) {
     [chartView setScaleEnabled:YES];
     chartView.pinchZoomEnabled = YES;
     chartView.drawGridBackgroundEnabled = NO;
-
-//    // x-axis limit line
-//    ChartLimitLine *llXAxis = [[ChartLimitLine alloc] initWithLimit:10.0 label:@"Index 10"];
-//    llXAxis.lineWidth = 4.0;
-//    llXAxis.lineDashLengths = @[@(10.f), @(10.f), @(0.f)];
-//    llXAxis.valueFont = [UIFont systemFontOfSize:10.f];
     
-    //[_chartView.xAxis addLimitLine:llXAxis];
-    
+    ChartXAxis *xAxis = chartView.xAxis;
+    xAxis.labelFont = [UIFont systemFontOfSize:11.f];
+    xAxis.labelTextColor = UIColor.blueColor;
+//    xAxis.drawGridLinesEnabled = NO;
+//    xAxis.drawAxisLineEnabled = NO;
     chartView.xAxis.gridLineDashLengths = @[@10.0, @10.0];
     chartView.xAxis.gridLineDashPhase = 0.f;
-//
-//    ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:150.0 label:@"Upper Limit"];
-//    ll1.lineWidth = 4.0;
-//    ll1.lineDashLengths = @[@5.f, @5.f];
-//    ll1.valueFont = [UIFont systemFontOfSize:10.0];
-//
-//    ChartLimitLine *ll2 = [[ChartLimitLine alloc] initWithLimit:-30.0 label:@"Lower Limit"];
-//    ll2.lineWidth = 4.0;
-//    ll2.lineDashLengths = @[@5.f, @5.f];
-//    ll2.valueFont = [UIFont systemFontOfSize:10.0];
     
     ChartYAxis *leftAxis = chartView.leftAxis;
     [leftAxis removeAllLimitLines];
@@ -203,5 +205,16 @@ RCT_CUSTOM_VIEW_PROPERTY(xValues, [String], LineChartView) {
     return chartView;
 }
 
+
+- (NSString *)stringForValue:(double)value axis:(ChartAxisBase *)axis
+{
+  NSArray<NSString *> *months = @[
+                @"Jan", @"Feb", @"Mar",
+                @"Apr", @"May", @"Jun",
+                @"Jul", @"Aug", @"Sep",
+                @"Oct", @"Nov", @"Dec"
+                ];
+    return months[(int)value % months.count];
+}
 
 @end
