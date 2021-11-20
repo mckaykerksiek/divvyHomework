@@ -48,18 +48,23 @@ RCT_CUSTOM_VIEW_PROPERTY(values, [XYValues], LineChartView) {
       [values addObject:[[ChartDataEntry alloc] initWithX:[val.x doubleValue] y:[val.y doubleValue] icon: [UIImage imageNamed:@"icon"]]];
    }
   LineChartDataSet *set1 = nil;
-  set1 = [[LineChartDataSet alloc] initWithEntries:values label:@"Monthly Revenue"];
+  set1 = [[LineChartDataSet alloc] initWithEntries:values label:@"Monthly Revenue in $"];
   
   set1.drawIconsEnabled = NO;
+//  if (values[0] < values[[json count] -1]) {
+//    [set1 setColor:UIColor.redColor];
+//    [set1 setCircleColor:UIColor.redColor];
+//
+//  } else {
+//    [set1 setColor:UIColor.greenColor];
+//    [set1 setCircleColor:UIColor.greenColor];
+//  }
   
-  set1.lineDashLengths = @[@5.f, @2.5f];
-  set1.highlightLineDashLengths = @[@5.f, @2.5f];
-  [set1 setColor:UIColor.blackColor];
-  [set1 setCircleColor:UIColor.blackColor];
   set1.lineWidth = 1.0;
   set1.circleRadius = 3.0;
   set1.drawCircleHoleEnabled = NO;
   set1.valueFont = [UIFont systemFontOfSize:9.f];
+  set1.drawValuesEnabled = NO;
   set1.formLineWidth = 1.0;
   set1.formSize = 15.0;
   
@@ -93,14 +98,13 @@ RCT_CUSTOM_VIEW_PROPERTY(xValues, [String], LineChartView) {
   
   ChartXAxis *xAxis = view.xAxis;
   xAxis.labelFont = [UIFont systemFontOfSize:11.f];
-  xAxis.labelTextColor = UIColor.blueColor;
-  xAxis.axisMinimum = 1.0;
-  xAxis.granularity = 1.0;
+  xAxis.labelTextColor = UIColor.blackColor;
   xAxis.valueFormatter = self;
-  
+  xAxis.granularity = 1.0;
+  xAxis.labelPosition = XAxisLabelPositionBottom;
   //xAxis.label
   ChartYAxis *leftAxis = view.leftAxis;
-  leftAxis.enabled = NO;
+  leftAxis.enabled = YES;
   
   view.rightAxis.enabled = NO;
   
