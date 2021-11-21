@@ -15,27 +15,21 @@ export default class Businesses extends React.Component {
       <Image
           style={styles.listImage}
           // I just found this image online and copied the link, ideally we would have icons or logos 
-          source={{uri: 'https://cdn-icons-png.flaticon.com/512/4689/4689530.png'}}
-      />
+          source={{uri: 'https://cdn-icons-png.flaticon.com/512/4689/4689530.png'}}/>
       <View style={{flexDirection: 'column'}, {paddingLeft: 12}}>
-
         <Text style={styles.item}> 
           { item.name }
         </Text> 
-
         <Text style={styles.location}> 
           {item.location.city}, {item.location.country} 
         </Text>
-
       </View>
-      
     </View>
     </TouchableHighlight>
   ) 
 
   render() {
     return (
-
       <View style={styles.container}>
         <FlatList
           data={this.sortedBusinesses}
@@ -43,9 +37,7 @@ export default class Businesses extends React.Component {
           renderItem= {this.businessItem}
         />
       </View>
-
     )
-    // return <FlatList />
   }
 }
 
@@ -56,7 +48,6 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flexDirection: 'row',
-    //justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
     backgroundColor: 'white',

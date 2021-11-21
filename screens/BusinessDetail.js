@@ -6,20 +6,29 @@ export default class BusinessDetail extends React.Component {
   business = this.props.route.params.business
 
   getChartValues() {
-    var arr = []
+    var returnArr = []
+    // order the dates from earliest to latest
     let rev = this.business.revenue.sort(function(a, b){
       if (a.date > b.date)
-              return 1;
+        return 1;
       if (a.date < b.date)
-          return -1;
+        return -1;
       return 0;});
+
     var highDate = 0
 
+    // create objects that contain x and y values for the char
     for (let i = 0; i < rev.length; i++) {
-      let str = rev[i].date
-      let dateStr = str.replace(/\-/g,'/') 
+
+      // replace the '-'s in the date string with '/'s. Date() doesn't work otherwise. 
+      // explanation found at this link: https://stackoverflow.com/questions/35660278/some-code-only-works-while-chrome-debugger-is-active/35728172
+      let dateStr = rev[i].date.replace(/\-/g,'/') 
       let date = new Date(dateStr)
       var month = date.getMonth()
+
+      // months need to be in chronological order for the chart, taking year into account.
+      // ex) since the loop is going through sorted dates, if a january comes after december, that january needs to be higher
+      // than december. add 12 to the january to make it 13 so the chart is still in the right order.
       if (month > highDate) {
         highDate = month
       }
@@ -30,15 +39,12 @@ export default class BusinessDetail extends React.Component {
         x: month,
         y: rev[i].value,
       }
-      console.log(val)
-      arr.push(val)
+      returnArr.push(val)
     }
-    console.log(arr)
-    return arr
+    return returnArr
   }
  
   render() {
-
 
     return (
       <View style={styles.container}>
@@ -51,7 +57,6 @@ export default class BusinessDetail extends React.Component {
       </View>
     )
   }
-  
 }
 
 const styles = StyleSheet.create({
@@ -85,5 +90,3 @@ const styles = StyleSheet.create({
     height: 300
   }
 });
-
-
