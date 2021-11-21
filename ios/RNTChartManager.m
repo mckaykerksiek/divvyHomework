@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RNTChartManager.h"
+#import <BusinessIntelligence-Swift.h>
 
 @import Charts;
 
@@ -86,6 +87,8 @@ RCT_CUSTOM_VIEW_PROPERTY(values, [XYValues], LineChartView) {
   xAxis.labelPosition = XAxisLabelPositionBottom;
   ChartYAxis *leftAxis = view.leftAxis;
   leftAxis.enabled = YES;
+  LargeValueFormatter *formatter = [LargeValueFormatter new];
+  leftAxis.valueFormatter = formatter;
   view.rightAxis.enabled = NO;
   
   view.legend.form = ChartLegendFormLine;
