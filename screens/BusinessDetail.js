@@ -44,7 +44,7 @@ export default class BusinessDetail extends React.Component {
       <View style={styles.container}>
         <View style={styles.infoContainer}>
           <Text style={styles.title}> { this.business.name } </Text>
-          <Text style={styles.location}> { this.business.location.address}  {this.business.location.city}, {this.business.location.country}</Text>
+          <Text style={styles.location}> { this.business.location.address} {this.business.location.city}, {this.business.location.country}</Text>
         </View>
         <Text style={styles.subtitle}> Last 6 months' revenue: </Text>
         <ChartView style={styles.chart} values={this.getChartValues()}/> 
@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
   },
   listImage: {
     width: 50,
-    height: 50
+    height: 50,
+    margin: 12
   },
   chart: {
     padding: 12,

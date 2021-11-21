@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     color: 'grey'
   },
   listImage: {
-    width: 50,
-    height: 50
+    width: 32,
+    height: 32,
+    margin: 10
   },
 });

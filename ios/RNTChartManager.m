@@ -48,7 +48,7 @@ RCT_CUSTOM_VIEW_PROPERTY(values, [XYValues], LineChartView) {
       [values addObject:[[ChartDataEntry alloc] initWithX:[val.x doubleValue] y:[val.y doubleValue] icon: [UIImage imageNamed:@"icon"]]];
    }
   LineChartDataSet *set1 = nil;
-  set1 = [[LineChartDataSet alloc] initWithEntries:values label:@"Monthly Revenue in $"];
+  set1 = [[LineChartDataSet alloc] initWithEntries:values label:@"Revenue in $"];
   
   set1.drawIconsEnabled = NO;
 //  if (values[0] < values[[json count] -1]) {
