@@ -1,15 +1,3 @@
-The `data.json` file contains business data you can use to populate the list and details.
+I opted to create the iOS version of the app. I don't think there are any special set-up instructions, but let me know if anything goes wrong. 
 
-You may need to download Xcode 12.4 for the code to compile. https://developer.apple.com/download/more/
-
-If you run into any configuration or build tool issues, feel free to reach out. 
-
-#### Some useful links:
-- https://reactnative.dev/docs/getting-started
-- https://reactnative.dev/docs/environment-setup
-- https://reactnative.dev/docs/native-components-ios
-- https://reactnative.dev/docs/native-components-android
-- https://reactnavigation.org/docs/getting-started
-- https://github.com/PhilJay/MPAndroidChart 
-- https://github.com/danielgindi/Charts
-- https://mockaroo.com/ 
+This was my first time using React Native and I had a lot of fun! I also learned a lot. Thanks for the opportunity!
