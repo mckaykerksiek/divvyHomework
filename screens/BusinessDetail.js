@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import ChartView from './ChartView.js';
 
 export default class BusinessDetail extends React.Component {
@@ -48,10 +48,16 @@ export default class BusinessDetail extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.infoContainer}>
-          <Text style={styles.title}> { this.business.name } </Text>
-          <Text style={styles.location}> { this.business.location.address} {this.business.location.city}, {this.business.location.country}</Text>
+        <View style={styles.itemContainer}>
+          <Image style={styles.listImage}
+            // I just found this image online and copied the link, ideally we would have icons or logos 
+            source={{uri: 'https://cdn-icons-png.flaticon.com/512/4689/4689530.png'}}/>
+          <View style={styles.infoContainer}>
+            <Text style={styles.title}> { this.business.name } </Text>
+            <Text style={styles.location}> { this.business.location.address} {this.business.location.city}, {this.business.location.country}</Text>
+          </View>
         </View>
+        
         <View style={styles.box}>
           <Text style={styles.chartTitle}> Last 6 months' revenue: </Text>
           <ChartView style={styles.chart} values={this.getChartValues()}/> 
@@ -67,11 +73,14 @@ const styles = StyleSheet.create({
    padding: 8,
    backgroundColor: 'white'
   },
+  itemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
   infoContainer: {
     height: 100,
     paddingVertical: 20,
-    margin: 8,
-    paddingHorizontal: 8,
     backgroundColor: 'white',
     borderRadius: 3,
   },
@@ -89,8 +98,8 @@ const styles = StyleSheet.create({
     color: 'grey'
   },
   listImage: {
-    width: 50,
-    height: 50,
+    width: 32,
+    height: 32,
     margin: 12
   },
   chart: {
@@ -104,5 +113,6 @@ const styles = StyleSheet.create({
     margin: 8,
     borderRadius: 3,
     backgroundColor: 'white',
-  }
+  },
+  
 });
