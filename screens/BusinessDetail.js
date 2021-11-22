@@ -52,8 +52,10 @@ export default class BusinessDetail extends React.Component {
           <Text style={styles.title}> { this.business.name } </Text>
           <Text style={styles.location}> { this.business.location.address} {this.business.location.city}, {this.business.location.country}</Text>
         </View>
-        <Text style={styles.subtitle}> Last 6 months' revenue: </Text>
-        <ChartView style={styles.chart} values={this.getChartValues()}/> 
+        <View style={styles.box}>
+          <Text style={styles.chartTitle}> Last 6 months' revenue: </Text>
+          <ChartView style={styles.chart} values={this.getChartValues()}/> 
+        </View>
       </View>
     )
   }
@@ -67,13 +69,19 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     height: 100,
-    paddingVertical: 20
+    paddingVertical: 20,
+    margin: 8,
+    paddingHorizontal: 8,
+    backgroundColor: 'white',
+    borderRadius: 3,
   },
   title: {
     fontSize: 32
   },
-  subtitle: {
-    fontSize: 20
+  chartTitle: {
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
   location: {
     paddingLeft: 2,
@@ -88,5 +96,13 @@ const styles = StyleSheet.create({
   chart: {
     padding: 12,
     height: 300
+  },
+  box: {
+    borderColor: 'lightgray',
+    borderWidth: 1,
+    padding: 8,
+    margin: 8,
+    borderRadius: 3,
+    backgroundColor: 'white',
   }
 });

@@ -48,10 +48,10 @@ RCT_CUSTOM_VIEW_PROPERTY(values, [XYValues], LineChartView) {
       [values addObject:[[ChartDataEntry alloc] initWithX:[val.x doubleValue] y:[val.y doubleValue] icon: [UIImage imageNamed:@"icon"]]];
   }
   LineChartDataSet *set1 = nil;
-  set1 = [[LineChartDataSet alloc] initWithEntries:values label:@"Revenue in $"];
+  set1 = [[LineChartDataSet alloc] initWithEntries:values label:@"Monthly Revenue"];
   
   set1.drawIconsEnabled = NO;
-  
+  set1.highlightEnabled = NO;
   set1.lineWidth = 1.0;
   set1.circleRadius = 3.0;
   set1.drawCircleHoleEnabled = NO;
