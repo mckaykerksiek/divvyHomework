@@ -9,14 +9,14 @@ export default class Businesses extends React.Component {
   navigation = this.props.navigation
   sortedBusinesses = businessData.sort(function(a,b){return a.name.localeCompare(b.name)})
   
+  // layout for items in the list
   businessItem = ({item}) => (
     <TouchableHighlight onPress={() => this.navigation.navigate('Profile', { business: item }) }>
     <View style={styles.itemContainer}>
-      <Image
-          style={styles.listImage}
+      <Image style={styles.listImage}
           // I just found this image online and copied the link, ideally we would have icons or logos 
           source={{uri: 'https://cdn-icons-png.flaticon.com/512/4689/4689530.png'}}/>
-      <View style={{flexDirection: 'column'}, {paddingLeft: 12}}>
+      <View style={{flexDirection: 'column'}, {paddingHorizontal: 12}, {flex: 1}}>
         <Text style={styles.item}> 
           { item.name }
         </Text> 
@@ -24,6 +24,7 @@ export default class Businesses extends React.Component {
           {item.location.city}, {item.location.country} 
         </Text>
       </View>
+      <Image style={styles.icon} source={require('./assets/right-arrow-icon.png')}/>
     </View>
     </TouchableHighlight>
   ) 
@@ -44,13 +45,15 @@ export default class Businesses extends React.Component {
 const styles = StyleSheet.create({
   container: {
    flex: 1,
-   padding: 8
+   padding: 8,
   },
   itemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
     backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgray'
   },
   item: {
     flexDirection: 'row',
@@ -66,4 +69,9 @@ const styles = StyleSheet.create({
     height: 32,
     margin: 10
   },
+  icon: {
+    width: 8,
+    height: 8,
+    padding: 8
+  }
 });
